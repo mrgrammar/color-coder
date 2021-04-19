@@ -1,0 +1,316 @@
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 3.2 Final//EN'>
+<html><head>
+<TITLE>Color Coder</TITLE>
+<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
+<style>
+table.coder td {
+	padding: 5px;
+}
+
+#area1 {
+	width: 460px;
+}
+
+#area3 {
+	width: 460px;
+}
+</style>
+<link type='text/css' rel='stylesheet' href='ccphrases.css'>
+<script type='text/javascript' src='https://code.jquery.com/jquery-1.4.2.min.js'></script>
+<SCRIPT>
+
+//window.onload = start;
+
+function start(){
+//document.getElementById("area").addEventListener("click", mytext, true);
+
+}
+
+var ctext = "";
+var text = "";
+var text2 = "";
+var current0 = "";
+var current = "";
+var currentZ = "";
+var started = false;
+
+function startcoding(){
+current = document.getElementById("area").value;
+//current = 'Paste or type the text you want to grammatically color-code here. Then, click the "Start Coding" button. Drag your mouse to select words and click on color-styles to code them.';
+current0 = current;
+document.getElementById("area1").innerText = current;
+document.getElementById("startbbtn").style.display = 'none';
+started = true;
+}
+
+function clearTxt(){
+document.getElementById('area1').innerHTML=current0;
+document.getElementById('tagged').innerText="";
+current = current0;
+}
+
+// cctext = ctext.replace(/onerror/g, "");
+
+function revise(){
+//alert('clearing ');
+current = document.getElementById('tagged').value;
+document.getElementById('area1').innerHTML=current;
+document.getElementById('area2').innerHTML="<form><textarea class='t' id='tagged' cols=40 rows=15></textarea></form>";
+// alert(document.getElementById('tagged').value);
+}
+
+function code(cell, color){
+  if(!started) {
+    startcoding();
+    return;
+  }
+  if(text != "") {
+if(text == ""){
+text = text2;
+}
+
+ctext = "<span class='"+color+"'>"+text+"</span>";
+//alert(text.toString() + ' ' + text.toString().length);
+
+let stext = text.toString();
+let ltext = stext.length;
+let endpt = startcode + ltext;
+console.log(stext + " " + startcode + " " + ltext + " " + endpt);
+
+currentZ = current;
+//current = current.replace(text, ctext);
+current = current.substr(0, startcode) + ctext + current.substr(endpt);
+document.getElementById('area1').innerHTML=current;
+document.getElementById('tagged').innerText=current;
+current = document.getElementById('tagged').value;
+} else {
+alert('no selection');
+}
+}
+
+function copyit() {
+  /* Get the text field */
+var copyText = document.getElementById("tagged");
+
+  /* Select the text field */
+  copyText.select();
+
+
+  /* Copy the text inside the text field */
+  document.execCommand("copy");
+
+  /* Alert the copied text */
+  alert("Copied the text: " + copyText.value);
+}
+
+function insert(marker, color){
+
+console.log('t='+text+' t2='+text2+' i='+startcode);
+if(color != "blackC"){
+ctext = "<span class='"+color+"'>"+marker+"</span>";
+} else {
+ctext = marker;
+}
+let stext = text.toString();
+text2 = stext;
+let ltext = stext.length;
+let endpt = startcode + ltext;
+console.log(stext + " " + startcode + " " + ltext + " " + endpt);
+console.log('t='+text+' t2='+text2+' i='+startcode);
+
+currentZ = current;
+//current = current.replace(text, ctext+text);
+current = current.substr(0, startcode) + ctext + current.substr(startcode);
+
+document.getElementById('area1').innerHTML=current;
+document.getElementById('tagged').innerText=current;
+//current = document.getElementById('tagged').value;
+console.log('t='+text+' t2='+text2+' i='+startcode);
+text = text2;
+}
+
+function insert2(marker, color){
+  if(color != "blackC"){
+ctext = "<span class='"+color+"'>"+marker+"</span>";
+} else {
+ctext = marker;
+}
+
+let stext = text.toString();
+text2 = stext;
+let ltext = stext.length;
+let endpt = startcode + ltext;
+console.log('t='+text+' t2='+text2+' i='+startcode);
+console.log(stext + " " + startcode + " " + ltext + " " + endpt);
+
+
+currentZ = current;
+//current = current.replace(text, text+ctext);
+current = current.substr(0, endpt) + ctext + current.substr(endpt);
+document.getElementById('area1').innerHTML=current;
+document.getElementById('tagged').innerText=current;
+//current = document.getElementById('tagged').value;
+console.log('t='+text+' t2='+text2+' i='+startcode);
+}
+
+function mytext(){
+alert(document.selection.createRange().text);
+window.getSelection();
+//document.getElementById("area").focus();
+//alert(document.getElementById("area").value);
+}
+
+function undo(){
+current = currentZ;
+document.getElementById('area1').innerHTML=current;
+document.getElementById('tagged').innerText=current;
+}
+</SCRIPT>
+</head><body>
+<table align='center' class='coder'><tr><th></th><th colspan=2 align='center'>
+Grammatical Color Coder</th></tr>
+
+<tr><td align='center' width=220> </td><td align='center'>
+<div id='area1'>
+<form>
+<textarea class='p' id='area' cols=57 rows=5> Paste or type the text you want to grammatically color-code here. Then, click the "Start Coding" button. Drag your mouse to select words and click on color-styles to code them.
+</textarea>
+</form></div><hr />
+<div id='area2'>
+<form>
+<textarea class='t' id='tagged' cols=57 rows=15>
+</textarea></form></div>
+
+<input type='button' value='Undo' onclick='undo()'>
+<input type='button' value='Revise' onclick='revise()'>
+<input type='button' value='Copy to Clipboard' onclick='copyit()'>
+<input type='button' value='Clear' onclick='clearTxt()'>
+
+</td>
+<td align='center'> <span id='startbbtn'><input type='button' value='Start Coding' onclick='startcoding()'></span> <input type='button' value='CSS rules' target=_plank onclick='document.location.href="http://colorcodedenglish.com/readers/ccphrases.css"'>
+<table align='middle' class='coder'>
+<tr><th colspan=3 nowrap><b>Color-Styles</b></th></tr>
+
+<tr><td id='A1' valign='top'><a href='javascript:code("A1","aqua")'><span class='aqua'>Adj</span></a> <a href='javascript:insert("(","aquaC")'><span class='aquaC'> ( </span></a> <a href='javascript:insert2(")","aquaC")'><span class='aquaC'> ) </span></a></td>
+<td id='A2' valign='top'><a href='javascript:code("A1","aqua_dotted")'><span class='aqua_dotted'>Adj</span></a>  <a href='javascript:insert("{","aquaC")'><span class='aquaC'> { </span></a> <a href='javascript:insert2("}","aquaC")'><span class='aquaC'> } </span></a></td>
+<td id='A3' valign='top'><a href='javascript:code("A1","aqua_dashed")'><span class='aqua_dashed'>Adv</span></a>  <a href='javascript:insert("[","aquaC")'><span class='aquaC'> [ </span></a> <a href='javascript:insert2("]","aquaC")'><span class='aquaC'> ] </span></a></td></tr>
+
+
+<tr><td id='N1' valign='top'><a href='javascript:code("A1","blue")'><span class='blue'>Noun</span></a> <a href='javascript:insert("(","blueC")'><span class='blueC'> ( </span></a> <a href='javascript:insert2(")","blueC")'><span class='blueC'> ) </span></a></td>
+<td id='N2' valign='top'><a href='javascript:code("A1","blue_dotted")'><span class='blue_dotted'>Noun</span></a> <a href='javascript:insert("{","blueC")'><span class='blueC'> { </span></a> <a href='javascript:insert2("}","blueC")'><span class='aquaC'> } </span></a></td>
+<td id='N3' valign='top'><a href='javascript:code("A1","blue_dashed")'><span class='blue_dashed'>Noun</span>  <a href='javascript:insert("[","blueC")'><span class='blueC'> [ </span></a> <a href='javascript:insert2("]","blueC")'><span class='blueC'> ] </span></a></a></td></tr>
+
+<tr><td id='R1' valign='top'><a href='javascript:code("A1","red")'><span class='red'>Verb</span></a></td>
+<td id='R2' valign='top'><a href='javascript:code("A1","red_dotted")'><span class='red_dotted'>Verbal</span></a></td>
+<td id='R3' valign='top'><a href='javascript:code("A1","red_dashed")'><span class='red_dashed'>Adv</span></a>  <a href='javascript:insert("[","redC")'><span class='redC'> [ </span></a> <a href='javascript:insert2("]","redC")'><span class='redC'> ] </span></a></td></tr>
+
+<tr><td id='Y1' valign='top'><a href='javascript:code("A1","orange")'><span class='orange'>Modal V</span></a></td>
+<td id='Y2' valign='top'><a href='javascript:code("A1","orange_dotted")'><span class='orange_dotted'>Aux V</span></a></td>
+<td id='Y3' valign='top'><a href='javascript:code("A1","orange_dashed")'><span class='orange_dashed'>Aux V</span></a></td></tr>
+
+<tr><td id='K1' valign='top'><a href='javascript:code("A1","black")'><span class='black'>Prp-Con</span></a></td>
+<td id='K2' valign='top'><a href='javascript:code("A1","black_dotted")'><span class='black_dotted'>Conj</span></a></td>
+<td id='K3' valign='top'><a href='javascript:code("A1","black_dashed")'><span class='black_dashed'>Inter</span></a>  <a href='javascript:insert("[","blackC")'><span class='blackC'> [ </span></a> <a href='javascript:insert2("]","blackC")'><span class='blackC'> ] </span></a></td></tr>
+</table>
+<hr width='75%'>
+<form><input type='button' value=',' onclick='insert(",","blackC")'> <input type='button' value='.' onclick='insert(".","blackC")'> <input type='button' value=';' onclick='insert(";","blackC")'> <input type='button' value=';' onclick='insert(":","blackC")'> <input type='button' value='?' onclick='insert("?","blackC")'> <input type='button' value='!' onclick='insert("!","blackC")'><br /><br />
+<!-- <input type='button' value='Check' onclick='checkText()'> -->
+ </form>
+</td></tr></table>
+<!-- <input type='button' value='Check' onclick='checkText()'>
+<center><span id='area3'>
+ Paste or type the text you want to grammatically color-code here. Then, click the "Start Coding" button. Drag your mouse to select words and click on color-styles to code them.
+</span></center> -->
+
+<SCRIPT>
+
+/*
+$('textarea.p').mouseup(function() {
+    text=getSelectedText();
+    if (text!='') {
+//alert(text);
+   //ctext = document.getElementById('codin').value;
+  //  document.getElementById('codin').innerHTML=ctext+" <span class='red'>"+text+"</span>";
+}
+});
+
+
+$('textarea.t').mouseup(function() {
+  //  text=checkText();
+    if (ctext=="") {
+document.getElementById('tagged').blur();
+}
+});
+*/
+var startcode = 500;
+
+
+
+const mywords = document.querySelector("#area1")
+mywords.addEventListener("mouseup", e => {
+           console.log(e.target);
+            text=getSelectedText();
+            sstext = text.toString();
+            startcode = current.indexOf(" "+ text + " ") + 1;
+            console.log('w/space='+text+' i='+startcode);
+            if(startcode == 0 || startcode == -1) { startcode = current.indexOf(" " + text) + 1; }
+            if(startcode == 0 || startcode == -1) { startcode = current.indexOf(text + " "); }
+            if(startcode == 0 || startcode == -1) {
+            startcode = current.indexOf(sstext);
+            console.log('sstxt='+sstext+' i='+startcode);
+            }
+let ltext = sstext.length;
+let endpt = startcode + ltext;
+            console.log('t='+text+' i='+startcode);
+        });
+
+const ccwords = document.querySelector("#tagged")
+ccwords.addEventListener("mouseup", e => {
+  if (ctext=="") {
+document.getElementById('tagged').blur();
+}
+        });
+
+
+function getSelectedText() {
+//alert('func called');
+    if (window.getSelection) {
+        //return window.getSelection().toString();
+        var selObj = window.getSelection();
+        return selObj;
+    } else if (document.selection) {
+        return document.selection.createRange().text;
+    }
+    return 'goob';
+}
+
+var sstext = "";
+/*
+const mywords3 = document.querySelector("#area3")
+mywords3.addEventListener("mouseup", e => {
+           console.log(e.target);
+            text=getSelectedText();
+            sstext = text.toString();
+            startcode = current.indexOf(" "+ text + " ") + 1;
+            console.log('w/space='+text+' i='+startcode);
+            if(startcode == 0 || startcode == -1) { startcode = current.indexOf(" " + text) + 1; }
+            if(startcode == 0 || startcode == -1) { startcode = current.indexOf(text + " "); }
+            if(startcode == 0 || startcode == -1) {
+            startcode = current.indexOf(sstext);
+            console.log('sstxt='+sstext+' i='+startcode);
+            }
+
+let ltext = sstext.length;
+let endpt = startcode + ltext;
+            console.log('t='+sstext+' i='+startcode);
+        });
+*/
+
+function checkText() {
+//alert(current);
+//let tx = "rammatical";
+//startcode = current.indexOf(sstext);
+console.log('t='+text+' t2='+text2+' i='+startcode);
+}
+</SCRIPT>
+</body></html>
